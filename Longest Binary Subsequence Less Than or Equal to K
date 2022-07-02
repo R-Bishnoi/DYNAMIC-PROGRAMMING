@@ -1,0 +1,73 @@
+class Solution {
+public:
+    
+    int ans=0;
+    
+   int binary(vector<char>v){
+       
+       int dm=0;
+       reverse(v.begin(),v.end());
+       for(int i=0;i<=v.size()-1;i++){
+           if(v[i]=='1'){
+          dm+=pow(2,i);
+           }
+          } 
+           
+           
+       
+       
+       return dm;
+       
+   } 
+    
+    
+    
+    
+    
+    
+   void solve(string s,vector<char>&v,int i,int k){
+       
+       if(i>=s.size()){
+       
+       if(v.size()>0){
+       int t=binary(v);
+       
+       if(k>=t){   
+           if(v.size()>ans)ans=v.size();
+                } 
+         }
+           
+           
+           return;   
+       }     
+           
+         //take 
+         v.push_back(s[i]);
+       solve(s,v,i+1,k);
+       
+       //not take
+       v.pop_back();
+       solve(s,v,i+1,k);
+       
+       
+       
+   }
+    
+  
+    
+
+    
+  int longestSubsequence(string s, int k) {
+        
+           vector<char>v;
+       int i=0;
+     
+      
+     
+       solve(s,v,i,k);
+     
+        return ans;
+        
+    }
+};
+
