@@ -1,3 +1,11 @@
+///leetcode
+//2311. Longest Binary Subsequence Less Than or Equal to K
+
+
+
+
+//using recursion
+
 class Solution {
 public:
     
@@ -70,4 +78,63 @@ public:
         
     }
 };
+
+
+
+
+
+//using dp
+
+class Solution {
+public:
+    
+    int solve(vector<vector<int>>&dp,string &s,int i,int d,int k){
+      
+        if(i<0)return 0;
+        if(dp[i][d]!=-1)return dp[i][d];
+        
+    //not take
+        int no=solve(dp,s,i-1,d,k);
+     
+    //take
+        int yes=0;
+    
+        if((k-(s[i]-'0')*pow(2,d))>=0){
+            yes=1+solve(dp,s,i-1,d+1,k-(s[i]-'0')*pow(2,d));
+        }
+        
+     //return the max of yes and no . actually  yes and no  storing the size of subsequences
+        
+        return dp[i][d]=max(yes,no);
+        
+        
+    }
+    
+    
+    
+    
+  int longestSubsequence(string s, int k) {
+    
+      int n=s.size();
+      vector<vector<int>>dp(n+1,vector<int>(n,-1));
+      
+      return solve(dp,s,n-1,0,k);
+        
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
