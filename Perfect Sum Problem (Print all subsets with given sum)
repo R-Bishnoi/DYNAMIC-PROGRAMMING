@@ -1,0 +1,108 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    
+    vector<int>v={2, 3, 5, 6, 8, 10};
+    int sum=10;
+    int n=v.size();
+  
+ //solve this using tabulation (DP)
+ 
+ 
+ vector<vector<bool>>dp(n+1,vector<bool>(sum+1,false));
+ 
+ //base cond. 1st
+ for(int i=0;i<=n;i++)
+   dp[i][0]=true;
+   
+ //base cond. 2nd 
+ dp[1][sum]=true;
+ 
+ 
+ 
+ for(int i=1;i<=n;i++){
+     for(int j=1;j<=sum;j++){
+         
+         bool not_take=dp[i-1][j-0];
+         
+         bool take=false;
+         if(j>=v[i-1])
+           take=dp[i-1][j-v[i-1]];
+           
+    //update current dp box
+     dp[i][j]=(take||not_take);
+             
+         
+     }
+ }
+ 
+ 
+ //it's denoting that subset of given sum exist or not
+cout<<dp[n][sum]<<endl;
+
+
+//now print all subset which sum is equal to given sum
+
+vector<vector<int>>res;
+queue<pair<pair<int,int>,vector<int>>>q;
+
+q.push({{n,sum},{}});
+
+
+while(!q.empty()){
+    
+  auto x=q.front();
+  q.pop();
+  
+  int a=x.first.first;
+  int b=x.first.second;
+  vector<int>an=x.second;
+ 
+ if(a==0&&b==0){
+     res.push_back(an);
+     continue;
+ } 
+ 
+ else{
+       bool exc=dp[a-1][b];
+ 
+     if(exc){
+        q.push({{a-1,b},an});
+      }
+
+
+     if(b>=v[a-1]){
+          bool inc=dp[a-1][b-v[a-1]];
+    
+
+       if(inc){
+           an.push_back(v[a-1]);
+           q.push({{a-1,b-v[a-1]},an});
+            }
+  
+         }
+
+}
+
+}
+
+
+
+for(int i=0;i<res.size();i++){
+    for(int j=0;j<res[i].size();j++){
+        cout<<res[i][j]<<" ";
+    }
+    cout<<endl;
+}
+
+
+
+//cout<<res.size()<<endl;
+
+
+    return 0;
+}
+
+
+
