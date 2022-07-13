@@ -1,0 +1,78 @@
+class Solution{
+	public:
+
+//space optimization method	
+int LCS(string & s1, string & s2) {
+ 
+    int m=s1.size();
+    int n=s2.size();
+   
+    vector<int>prev(n+1,0),curr(n+1,0);
+    
+   for(int i=1;i<=m;i++){
+       for(int j=1;j<=n;j++){
+          if(s1[i-1]==s2[j-1]){
+              curr[j]=1+prev[j-1];
+          }
+          else{
+              curr[j]=max(prev[j],curr[j-1]);
+          }
+           
+       }
+       prev=curr;
+   }
+   
+return prev[n];
+     
+}
+
+
+
+//solve function 
+//for getting unique element
+set<string>st;
+
+void solve(vector<string>&ans,string &temp,string s,string t,int i,int j,int count){
+   
+   //possibility to getting a new unique ans 
+  if(count==0){
+      if(st.find(temp)==st.end()){
+          st.insert(temp);
+          ans.push_back(temp);
+      }
+      return;
+  }
+  
+  //out of bound
+  if(i>=s.size()||j>=t.size())return;
+    
+  //check all possible solution
+  
+  for(int p=i;p<s.size();p++){
+      for(int q=j;q<t.size();q++){
+          if(s[p]==t[q]){
+              temp.push_back(s[p]);
+              solve(ans,temp,s,t,p+1,q+1,count-1);
+              temp.pop_back();
+          }
+      }
+  }
+    
+}
+
+//given function
+vector<string> all_longest_common_subsequences(string s, string t){
+    
+      int count=LCS(s,t); 
+      vector<string>ans;
+      string temp="";
+      
+   solve(ans,temp,s,t,0,0,count);
+   sort(ans.begin(),ans.end());
+
+   return ans;
+       
+
+		}
+	
+};
