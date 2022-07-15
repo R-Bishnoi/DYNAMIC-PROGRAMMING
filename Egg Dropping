@@ -1,0 +1,44 @@
+class Solution{
+    public:
+
+//time complexity  O(n*k*k);
+//n=egg  and  k= floor
+    int eggDrop(int n, int k) {
+     
+     
+    //  if(n=0)return 0;
+    if(k==1)return 1;
+    
+    vector<vector<int>>dp(n+1,vector<int>(k+1,0));
+    
+
+    
+    //minimum ways
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=k;j++){
+            
+            if(i==1)dp[i][j]=j;
+            
+            else if(j==1)dp[i][j]=1;
+         
+         else{
+             int mini=INT_MAX;
+          for(int mj=j-1,pj=0;mj>=0;mj--,pj++){
+             int v1=dp[i][mj];
+             int v2=dp[i-1][pj];
+             int maxi=max(v1,v2);
+            mini =min(maxi,mini); 
+              
+          }
+          
+          dp[i][j]=1+mini;
+            
+            
+        }
+        }
+    }
+        
+    return dp[n][k];    
+    
+    }
+};
